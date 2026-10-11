@@ -111,15 +111,30 @@
     <div class="container">
         <div class="card">
             <div class="topbar">
-                <h2>List Users</h2>
+                <h2>Users</h2>
                 <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/new">Add New User</a>
             </div>
+
+            <form method="get" action="${pageContext.request.contextPath}/users">
+                <label for="country">Country</label>
+                <input id="country" name="country" type="search" value="<c:out value='${countryFilter}' />"
+                       placeholder="Search by country">
+                <c:if test="${sortByName}">
+                    <input type="hidden" name="sort" value="name">
+                </c:if>
+                <button type="submit">Search</button>
+            </form>
+
+            <c:url var="nameSortUrl" value="/users">
+                <c:param name="country" value="${countryFilter}" />
+                <c:param name="sort" value="name" />
+            </c:url>
 
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
+                        <th><a href="${nameSortUrl}">Name<c:if test="${sortByName}"> (A-Z)</c:if></a></th>
                         <th>Email</th>
                         <th>Country</th>
                         <th>Actions</th>
@@ -127,13 +142,13 @@
                 </thead>
                 <tbody>
                     <c:choose>
-                        <c:when test="${not empty listUsers}">
-                            <c:forEach var="user" items="${listUsers}">
+                        <c:when test="${not empty users}">
+                            <c:forEach var="user" items="${users}">
                                 <tr>
                                     <td>${user.id}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.country}</td>
+                                    <td><c:out value="${user.name}" /></td>
+                                    <td><c:out value="${user.email}" /></td>
+                                    <td><c:out value="${user.country}" /></td>
                                     <td>
                                         <div class="actions">
                                             <a class="a-edit" href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit</a>

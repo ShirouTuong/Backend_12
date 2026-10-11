@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,19 +90,20 @@
 <body>
     <div class="card">
         <h2>Edit User</h2>
-        <form action="${pageContext.request.contextPath}/users/update" method="post">
-            <input type="hidden" name="id" value="${user.id}" />
+        <c:if test="${not empty error}"><p role="alert"><c:out value="${error}" /></p></c:if>
+        <form action="${pageContext.request.contextPath}/users/update" method="post" accept-charset="UTF-8">
+            <input type="hidden" name="id" value="<c:out value='${user.id}' />" />
             <div class="field">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="${user.name}" required />
+                <input type="text" id="name" name="name" maxlength="120" value="<c:out value='${user.name}' />" required />
             </div>
             <div class="field">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="${user.email}" required />
+                <input type="email" id="email" name="email" maxlength="220" value="<c:out value='${user.email}' />" required />
             </div>
             <div class="field">
                 <label for="country">Country</label>
-                <input type="text" id="country" name="country" value="${user.country}" required />
+                <input type="text" id="country" name="country" maxlength="120" value="<c:out value='${user.country}' />" required />
             </div>
             <div class="actions">
                 <button class="btn btn-primary" type="submit">Update</button>
